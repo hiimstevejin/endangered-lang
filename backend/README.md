@@ -11,7 +11,7 @@ pip install -r requirements.txt
 To run the application:
 
 ```
-fastapi dev main.py
+fastapi dev src/main.py
 ```
 
 ## Feature 1

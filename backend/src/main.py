@@ -37,7 +37,7 @@ async def websocket_endpoint(websocket: WebSocket):
             while True:
                 # Receive raw bytes from frontend
                 data = await websocket.receive_bytes()
-
+                print(f"DEBUG: Internal received {len(data)} bytes")
                 if not data:
                     break
 
@@ -54,4 +54,5 @@ async def websocket_endpoint(websocket: WebSocket):
     output_stream = pipeline.atransform(websocket_audio_stream())
 
     async for event in output_stream:
+        print(f"DEBUG: Yielding event {event.type}")
         await websocket.send_json(event_to_dict(event))

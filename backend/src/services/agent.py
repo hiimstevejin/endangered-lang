@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from langchain.agents import create_agent
 from langchain.messages import AIMessage, HumanMessage, ToolMessage
+from langchain_core.runnables import add
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import InMemorySaver
 
@@ -19,7 +20,17 @@ model = ChatOpenAI(
     model="gpt-4", temperature=0.1, max_completion_tokens=1000, timeout=30
 )
 
-tools = []
+
+def add_to_order(item: str, quantity: int) -> str:
+    """Add an item to the customer's sandwich order."""
+    return f"Added {quantity} x {item} to the order."
+
+
+def confirm_order(order_summary: str) -> str:
+    """Confirm the final order with the customer."""
+    return f"Order confirmed: {order_summary}. Sending to kitchen."
+
+
 system_prompt = f"""
 You are a helpful sandwich shop assistant. Your goal is to take the user's order.
 Be concise and friendly.
@@ -32,7 +43,10 @@ Available cheeses: swiss, cheddar, provolone.
 """
 
 agent = create_agent(
-    model, tools, system_prompt=system_prompt, checkpointer=InMemorySaver()
+    model,
+    tools=[add_to_order, confirm_order],
+    system_prompt=system_prompt,
+    checkpointer=InMemorySaver(),
 )
 
 
