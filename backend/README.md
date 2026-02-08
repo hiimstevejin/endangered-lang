@@ -13,26 +13,3 @@ To run the application:
 ```
 fastapi dev src/main.py
 ```
-
-## Feature 1
-
-Reference
-https://www.youtube.com/watch?v=kDPzdyX76cg&t=1260s
-
-Processing Audio Input / Output with voice agent
-I chose Sandwich structure which works as follows
-
-User Input -> Voice audio detection model -> Speech to Text model -> agent -> Text to Speech -> Output Audio
-
-```
-├── backend/
-│   ├── app/
-│   │   ├── services/
-│   │   │   ├── stt.py     # Put Whisper logic here
-│   │   │   ├── agent.py   # Put LangChain logichere
-│   │   │   └── tts.py     # Put OpenAI TTS logic here
-│   │   └── main.py        # WebSocket & API routes
-│   └── .env               # API Keys
-```
-
-This is the structure of backend directory and _Voice audio detection model is often embedded in the stt model_ so I will skip it for now.
